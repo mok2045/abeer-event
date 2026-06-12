@@ -1,5 +1,20 @@
 (function () {
   "use strict";
+  // Safety net: force-close drawers even when an old cached HTML loads this file
+  (function () {
+    function hideAll() {
+      ["cartDrawer", "mnav"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) { el.classList.remove("open"); el.style.display = "none"; }
+      });
+      ["cartOverlay", "mnavOverlay"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove("open");
+      });
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", hideAll);
+    else hideAll();
+  })();
   const CART_KEY = "abeer_cart_v1";
   const CATEGORIES = [{key:"all",label:"الكل"},{key:"bouquets",label:"باقات"},{key:"vases",label:"فازات"},{key:"special",label:"مناسبات"}];
   const OCCASIONS = [{icon:"💝",label:"حبيبي"},{icon:"🌸",label:"أمي"},{icon:"🎂",label:"عيد ميلاد"},{icon:"🎓",label:"تخرج"},{icon:"💍",label:"زفاف"},{icon:"💐",label:"خطوبة"},{icon:"👑",label:"أبي"},{icon:"🌹",label:"المرأة"}];
