@@ -1,9 +1,9 @@
-/* عبير إيفنت — Service Worker (تخزين مؤقت بسيط للعمل دون اتصال) */
-const CACHE = "abeer-v2";
+/* عبير إيفنت — Service Worker */
+const CACHE = "abeer-v3";
 const ASSETS = [
   "./",
   "./index.html",
-  "./assets/css/styles.css?v=3",
+  "./assets/css/styles.css?v=4",
   "./assets/js/store.js?v=3",
 ];
 
@@ -19,12 +19,10 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  // لا تخزّن طلبات الـ API أو البيانات — اجلبها دائماً حديثة
   if (url.pathname.endsWith("api.php") || url.pathname.endsWith("data.json")) {
     e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
-  // باقي الملفات: من الكاش أولاً ثم الشبكة
   e.respondWith(
     caches.match(e.request).then((cached) => cached || fetch(e.request).then((res) => {
       if (e.request.method === "GET" && res.ok && url.origin === location.origin) {
