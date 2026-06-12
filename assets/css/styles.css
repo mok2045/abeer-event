@@ -125,7 +125,7 @@ a { text-decoration: none; color: inherit; }
 .hero::before {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(rgba(58,82,40,.4), rgba(58,82,40,.55)),
-    url('https://d2xsxph8kpxj0f.cloudfront.net/310519663180615666/Caum4jwwdqGQuy8FsdJoo5/abeer_girl_hero_afb19f18.jpg') center 20%/cover;
+    url('https://d2xsxph8kpxj0f.cloudfront.net/310519663180615666/Caum4jwwdqGQuy8FsdJoo5/abeer_girl_hero_afb19f18.jpg') center top/cover;
   transform: scale(1.05);
 }
 .hero-content { position: relative; z-index: 1; padding: 40px 20px; max-width: 760px; }
