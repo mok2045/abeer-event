@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>عبير إيفنت — تنسيق ورود ومناسبات | الرياض</title>
   <meta name="description" content="عبير إيفنت لتنسيق الورود والمناسبات في الرياض. باقات ورد فاخرة، فازات، وتنسيقات أعراس ومناسبات. اطلب الآن عبر واتساب." />
-  <!-- PWA — يجعل الموقع قابلاً للتثبيت كتطبيق على الجوال -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#6e7d58" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=2" />
 </head>
 <body>
   <!-- Announcement -->
@@ -205,7 +204,6 @@
 
   <script src="assets/js/store.js"></script>
   <script>
-    // تسجيل الـ Service Worker (يعمل فقط على HTTPS أو localhost)
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("sw.js").catch(() => {});
