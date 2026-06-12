@@ -1,5 +1,5 @@
 /* =========================================================
-   عبير إيفنت — Storefront Styles  v4
+   عبير إيفنت — Storefront Styles  v5
    Brand: Olive #6e7d58 · Dark #2d4020 · Cream #F5F2E8 · Gold #C9A84C
    Fonts: Tajawal (AR) + Cormorant Garamond (display)
    ========================================================= */
@@ -56,25 +56,24 @@ a { text-decoration: none; color: inherit; }
 .btn-ghost:hover { background: var(--olive-dark); color: var(--cream); }
 .btn-block { width: 100%; }
 
-/* Glassmorphism buttons */
 .btn-glass {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,.15);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   backdrop-filter: blur(12px) saturate(140%);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border: 1.5px solid rgba(255,255,255,.4);
   color: #fff;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,.2), inset 0 1px 1px rgba(255,255,255,.35);
 }
-.btn-glass:hover { background: rgba(255, 255, 255, 0.28); transform: translateY(-2px); }
+.btn-glass:hover { background: rgba(255,255,255,.28); transform: translateY(-2px); }
 .btn-glass-gold {
-  background: rgba(201, 168, 76, 0.3);
+  background: rgba(201,168,76,.3);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   backdrop-filter: blur(12px) saturate(160%);
-  border: 1.5px solid rgba(223, 192, 106, 0.65);
+  border: 1.5px solid rgba(223,192,106,.65);
   color: #fff;
-  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(201,168,76,.28), inset 0 1px 1px rgba(255,255,255,.35);
 }
-.btn-glass-gold:hover { background: rgba(201, 168, 76, 0.5); transform: translateY(-2px); }
+.btn-glass-gold:hover { background: rgba(201,168,76,.5); transform: translateY(-2px); }
 
 /* ===== Announcement bar ===== */
 .announce {
@@ -82,7 +81,7 @@ a { text-decoration: none; color: inherit; }
   font-size: .9rem; padding: 8px 12px; font-weight: 500;
 }
 
-/* ===== Header — dark olive like Nicepage ===== */
+/* ===== Header ===== */
 .header {
   position: sticky; top: 0; z-index: 50;
   background: var(--olive-dark);
@@ -102,7 +101,7 @@ a { text-decoration: none; color: inherit; }
 .brand-name { font-weight: 800; font-size: 1.2rem; color: var(--cream); }
 .brand-sub { font-size: .72rem; color: rgba(245,242,232,.65); letter-spacing: 2px; font-family: 'Cormorant Garamond', serif; }
 .nav { display: flex; gap: 26px; font-weight: 500; }
-.nav a { color: rgba(245,242,232,.85); transition: color .2s; position: relative; }
+.nav a { color: rgba(245,242,232,.85); transition: color .2s; }
 .nav a:hover { color: var(--gold-light); }
 .header-actions { display: flex; align-items: center; gap: 10px; }
 .icon-btn {
@@ -223,7 +222,7 @@ section { scroll-margin-top: 80px; }
 .about-img { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-md); }
 .about-img img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ===== Contact / CTA ===== */
+/* ===== CTA ===== */
 .cta { text-align: center; }
 .cta h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--olive-dark); margin-bottom: 10px; }
 .cta p { color: var(--muted); margin-bottom: 26px; }
@@ -238,36 +237,65 @@ section { scroll-margin-top: 80px; }
 .footer-brand .brand-name { color: var(--cream); }
 .footer-bottom { border-top: 1px solid rgba(245,242,232,.15); padding-top: 18px; text-align: center; font-size: .85rem; opacity: .75; }
 
-/* ===== Floating WhatsApp ===== */
+/* ===== WhatsApp float ===== */
 .wa-float {
   position: fixed; bottom: 24px; right: 24px; left: auto; z-index: 40;
   width: 60px; height: 60px; border-radius: 50%; background: #25d366; color: #fff;
   display: grid; place-items: center; box-shadow: 0 8px 24px rgba(37,211,102,.5);
   animation: waPulse 2.5s infinite;
 }
-@keyframes waPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(37,211,102,.4);} 50% { box-shadow: 0 0 0 14px rgba(37,211,102,0);} }
+@keyframes waPulse { 0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)} 50%{box-shadow:0 0 0 14px rgba(37,211,102,0)} }
 
-/* ===== Cart Drawer ===== */
-.overlay { position: fixed; inset: 0; background: rgba(20,30,12,.55); opacity: 0; visibility: hidden; transition: opacity .25s; z-index: 60; }
-.overlay.open { opacity: 1; visibility: visible; }
-.drawer {
-  position: fixed; top: 0; left: 0; right: auto;
-  height: 100%; width: min(420px, 92%);
-  background: var(--cream); z-index: 70;
-  transform: translateX(-110%);
-  transition: transform .3s ease;
-  display: flex; flex-direction: column;
+/* ===== Overlay ===== */
+.overlay {
+  position: fixed; inset: 0; background: rgba(20,30,12,.55);
+  opacity: 0; visibility: hidden;
+  transition: opacity .25s, visibility .25s;
+  z-index: 60;
 }
-.drawer.open { transform: translateX(0); }
-[dir="rtl"] .drawer { right: 0; left: auto; transform: translateX(110%); }
-[dir="rtl"] .drawer.open { transform: translateX(0); }
+.overlay.open { opacity: 1; visibility: visible; }
+
+/* ===== Cart Drawer — bulletproof Safari RTL fix ===== */
+/* LTR: drawer anchored left, hidden off-screen to the left */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(420px, 92vw);
+  height: 100%;
+  background: var(--cream);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  /* hide off-screen using full viewport width — never fails */
+  transform: translateX(-100vw);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+  /* extra safety: invisible when off-screen */
+  visibility: hidden;
+}
+.drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* RTL: drawer anchored right, hidden off-screen to the right */
+[dir="rtl"] .drawer {
+  left: unset;
+  right: 0;
+  transform: translateX(100vw);
+}
+[dir="rtl"] .drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
 .drawer-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px; border-bottom: 1px solid var(--line);
-  background: var(--olive-dark);
+  padding: 20px; border-bottom: 1px solid rgba(255,255,255,.12);
+  background: var(--olive-dark); flex-shrink: 0;
 }
 .drawer-head h3 { color: var(--cream); font-size: 1.3rem; }
-.drawer-close { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: rgba(245,242,232,.7); }
+.drawer-close { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: rgba(245,242,232,.75); }
 .drawer-close:hover { color: var(--gold-light); }
 .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
 .cart-empty { text-align: center; color: var(--muted); padding: 50px 0; }
@@ -282,7 +310,7 @@ section { scroll-margin-top: 80px; }
 .qty button:hover { background: var(--gold-light); }
 .qty span { min-width: 22px; text-align: center; font-weight: 700; }
 .cart-remove { background: none; border: none; cursor: pointer; color: #c0392b; font-size: 1.1rem; align-self: flex-start; }
-.drawer-foot { padding: 18px 20px; border-top: 1px solid var(--line); background: var(--white); }
+.drawer-foot { padding: 18px 20px; border-top: 1px solid var(--line); background: var(--white); flex-shrink: 0; }
 .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 1.1rem; color: var(--olive-dark); }
 .cart-total strong { color: var(--olive-dark); font-size: 1.35rem; }
 
@@ -295,8 +323,16 @@ section { scroll-margin-top: 80px; }
 .checkout-fields input:focus, .checkout-fields textarea:focus { outline: none; border-color: var(--olive-dark); }
 
 /* ===== Mobile nav drawer ===== */
-.mnav { position: fixed; top: 0; inset-inline-end: 0; height: 100%; width: min(280px, 80%); background: var(--olive-dark); z-index: 70; transform: translateX(110%); transition: transform .3s ease; padding: 24px; }
-.mnav.open { transform: translateX(0); }
+.mnav {
+  position: fixed; top: 0; height: 100%; width: min(280px, 80%);
+  background: var(--olive-dark); z-index: 70; padding: 24px;
+  /* RTL: right side, hidden off-screen right */
+  right: 0; left: unset;
+  transform: translateX(100vw);
+  transition: transform .3s ease;
+  visibility: hidden;
+}
+.mnav.open { transform: translateX(0); visibility: visible; }
 .mnav a { display: block; padding: 14px 0; font-weight: 600; color: rgba(245,242,232,.85); border-bottom: 1px solid rgba(255,255,255,.1); }
 .mnav a:hover { color: var(--gold-light); }
 .mnav-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: rgba(245,242,232,.7); margin-bottom: 10px; }
