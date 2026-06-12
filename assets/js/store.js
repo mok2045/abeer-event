@@ -9,6 +9,7 @@
   const $ = (id) => document.getElementById(id);
   document.addEventListener("DOMContentLoaded", init);
   async function init() {
+    ["cartDrawer","cartOverlay","mnav","mnavOverlay"].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove("open");});
     $("year").textContent = new Date().getFullYear();
     await loadData(); applySettings(); renderTabs(); renderBestsellers(); renderShop("all"); renderOccasions(); updateCartUI(); bindEvents(); setupReveal();
   }
