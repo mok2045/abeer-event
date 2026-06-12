@@ -9,7 +9,6 @@
   const $ = (id) => document.getElementById(id);
   document.addEventListener("DOMContentLoaded", init);
   async function init() {
-    ["cartDrawer","cartOverlay","mnav","mnavOverlay"].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove("open");});
     $("year").textContent = new Date().getFullYear();
     await loadData(); applySettings(); renderTabs(); renderBestsellers(); renderShop("all"); renderOccasions(); updateCartUI(); bindEvents(); setupReveal();
   }
@@ -67,10 +66,10 @@
     msg+=`\n\nأرغب بتأكيد الطلب 🌸`;
     window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`,"_blank");
   }
-  function openCart(){$("cartDrawer").classList.add("open");$("cartOverlay").classList.add("open");}
-  function closeCart(){$("cartDrawer").classList.remove("open");$("cartOverlay").classList.remove("open");}
-  function openMnav(){$("mnav").classList.add("open");$("mnavOverlay").classList.add("open");}
-  function closeMnav(){$("mnav").classList.remove("open");$("mnavOverlay").classList.remove("open");}
+  function openCart(){var d=$("cartDrawer"),o=$("cartOverlay");d.style.display="flex";void d.offsetHeight;d.classList.add("open");o.classList.add("open");}
+  function closeCart(){var d=$("cartDrawer"),o=$("cartOverlay");d.classList.remove("open");o.classList.remove("open");setTimeout(function(){if(!d.classList.contains("open"))d.style.display="none";},350);}
+  function openMnav(){var n=$("mnav"),o=$("mnavOverlay");n.style.display="block";void n.offsetHeight;n.classList.add("open");o.classList.add("open");}
+  function closeMnav(){var n=$("mnav"),o=$("mnavOverlay");n.classList.remove("open");o.classList.remove("open");setTimeout(function(){if(!n.classList.contains("open"))n.style.display="none";},350);}
   function bindEvents(){
     document.body.addEventListener("click",(e)=>{
       const add=e.target.closest("[data-add]"); if(add)return addToCart(add.dataset.add);
