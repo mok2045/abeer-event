@@ -1,0 +1,10 @@
+{
+  "name": "عبير إيفنت — تنسيق ورود ومناسبات",
+  "short_name": "عبير إيفنت",
+  "description": "متجر ورد وتنسيق مناسبات فاخرة في الرياض",
+  "lang": "ar", "dir": "rtl",
+  "start_url": "./index.html", "scope": "./",
+  "display": "standalone", "orientation": "portrait",
+  "background_color": "#202c15", "theme_color": "#5c6848",
+  "icons": [{ "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663180615666/Caum4jwwdqGQuy8FsdJoo5/abeer_logo-1_d456ebe0.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }]
+}

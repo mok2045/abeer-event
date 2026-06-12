@@ -1,0 +1,4 @@
+<Files "data.json">
+  Require all denied
+</Files>
+Options -Indexes

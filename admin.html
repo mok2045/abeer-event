@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم — عبير إيفنت</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/admin.css" />
+</head>
+<body>
+  <div class="login-wrap" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <img class="login-logo" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663180615666/Caum4jwwdqGQuy8FsdJoo5/abeer_logo-1_d456ebe0.png" alt="عبير إيفنت" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin:0 auto 16px" />
+      <h1>لوحة التحكم</h1>
+      <p>عبير إيفنت — أدخل كلمة المرور</p>
+      <input type="password" id="loginPassword" placeholder="كلمة المرور" autocomplete="current-password" />
+      <button type="submit" class="btn btn-primary btn-block">دخول</button>
+    </form>
+  </div>
+  <div id="dashboard" style="display:none">
+    <div class="topbar"><div class="container topbar-inner"><div class="brand"><span class="brand-logo">❀</span> لوحة عبير إيفنت</div><div class="topbar-actions"><button class="btn btn-gold btn-sm" id="saveAllBtn">💾 حفظ التغييرات</button><button class="btn btn-ghost btn-sm" id="logoutBtn" style="color:var(--cream);border-color:rgba(245,242,232,.3)">خروج</button></div></div></div>
+    <div class="container">
+      <div class="admin-tabs"><button class="admin-tab active" data-view="products">🌹 المنتجات</button><button class="admin-tab" data-view="settings">⚙️ الإعدادات</button></div>
+      <div id="productsView">
+        <div class="hint">💡 عدّل المنتجات ثم اضغط <strong>حفظ التغييرات</strong> في الأعلى لنشرها.</div>
+        <div class="toolbar"><button class="btn btn-primary btn-sm" id="addProductBtn">+ منتج جديد</button><input type="search" id="searchInput" placeholder="🔍 بحث..." /><select id="categoryFilter"><option value="all">كل الأقسام</option><option value="bouquets">باقات</option><option value="vases">فازات</option><option value="special">مناسبات</option></select><div class="spacer"></div><span class="muted" id="productCount"></span></div>
+        <div class="prod-list" id="prodList"></div>
+      </div>
+      <div id="settingsView" style="display:none">
+        <div class="settings-card">
+          <label>اسم المتجر</label><input type="text" id="setStoreName" />
+          <label>الشعار التسويقي</label><input type="text" id="setTagline" />
+          <label>رقم واتساب (بصيغة دولية بدون +)</label><input type="text" id="setWhatsapp" placeholder="966507378055" dir="ltr" />
+          <label>رابط إنستغرام</label><input type="text" id="setInstagram" dir="ltr" />
+          <label>البريد الإلكتروني</label><input type="text" id="setEmail" dir="ltr" />
+          <label>شريط الإعلان</label><input type="text" id="setAnnouncement" />
+          <label>خصم عام (%)</label><input type="number" id="setGlobalDiscount" min="0" max="100" />
+          <label>العملة</label><input type="text" id="setCurrency" />
+          <button class="btn btn-primary btn-block" id="saveSettingsBtn" style="margin-top:8px">💾 حفظ الإعدادات</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <h3 id="modalTitle">منتج جديد</h3>
+      <img class="img-preview" id="imgPreview" alt="معاينة" src="" />
+      <label>📤 ارفع صورة من جهازك</label><input type="file" id="pImageFile" accept="image/*" />
+      <div id="uploadStatus" class="muted" style="font-size:.82rem;margin:-6px 0 12px"></div>
+      <label>أو الصق رابط صورة</label><input type="text" id="pImage" dir="ltr" placeholder="https://..." />
+      <div class="modal-row"><div><label>الاسم بالعربي</label><input type="text" id="pNameAr" /></div><div><label>الاسم بالإنجليزي</label><input type="text" id="pNameEn" dir="ltr" /></div></div>
+      <div class="modal-row"><div><label>السعر (ر.س)</label><input type="number" id="pPrice" min="0" /></div><div><label>الخصم (%)</label><input type="number" id="pDiscount" min="0" max="100" /></div></div>
+      <div class="modal-row"><div><label>القسم</label><select id="pCategory"><option value="bouquets">باقات</option><option value="vases">فازات</option><option value="special">مناسبات</option></select></div><div><label>الشارة</label><select id="pBadge"><option value="">بدون</option><option value="new">جديد</option><option value="bestseller">الأكثر مبيعاً</option><option value="sale">عرض</option><option value="exclusive">حصري</option></select></div></div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pVisible" style="width:auto;margin:0" checked /> ظاهر في الموقع</label>
+      <div class="modal-actions"><button class="btn btn-primary" id="saveProductBtn">حفظ</button><button class="btn btn-ghost" id="cancelProductBtn">إلغاء</button></div>
+    </div>
+  </div>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
