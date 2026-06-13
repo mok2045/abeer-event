@@ -256,7 +256,9 @@ section { scroll-margin-top: 80px; }
 .overlay.open { opacity: 1; visibility: visible; }
 
 /* ===== Cart Drawer — bulletproof Safari RTL fix ===== */
-/* LTR: drawer anchored left, hidden off-screen to the left */
+/* Default: hidden. display:none is the primary hide mechanism.
+   translateX(110%) is a secondary off-screen backup (element-relative %, not vw).
+   Using % instead of vw avoids iOS Safari's known fixed+translateX(100vw) bug. */
 .drawer {
   position: fixed;
   top: 0;
@@ -265,15 +267,14 @@ section { scroll-margin-top: 80px; }
   height: 100%;
   background: var(--cream);
   z-index: 70;
-  display: flex;
+  display: none;
   flex-direction: column;
-  /* hide off-screen using full viewport width — never fails */
-  transform: translateX(-100vw);
+  transform: translateX(-110%);
   transition: transform .32s cubic-bezier(.4,0,.2,1);
-  /* extra safety: invisible when off-screen */
   visibility: hidden;
 }
 .drawer.open {
+  display: flex;
   transform: translateX(0);
   visibility: visible;
 }
@@ -282,9 +283,10 @@ section { scroll-margin-top: 80px; }
 [dir="rtl"] .drawer {
   left: unset;
   right: 0;
-  transform: translateX(100vw);
+  transform: translateX(110%);
 }
 [dir="rtl"] .drawer.open {
+  display: flex;
   transform: translateX(0);
   visibility: visible;
 }
@@ -326,13 +328,13 @@ section { scroll-margin-top: 80px; }
 .mnav {
   position: fixed; top: 0; height: 100%; width: min(280px, 80%);
   background: var(--olive-dark); z-index: 70; padding: 24px;
-  /* RTL: right side, hidden off-screen right */
   right: 0; left: unset;
-  transform: translateX(100vw);
+  display: none;
+  transform: translateX(110%);
   transition: transform .3s ease;
   visibility: hidden;
 }
-.mnav.open { transform: translateX(0); visibility: visible; }
+.mnav.open { display: block; transform: translateX(0); visibility: visible; }
 .mnav a { display: block; padding: 14px 0; font-weight: 600; color: rgba(245,242,232,.85); border-bottom: 1px solid rgba(255,255,255,.1); }
 .mnav a:hover { color: var(--gold-light); }
 .mnav-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: rgba(245,242,232,.7); margin-bottom: 10px; }
@@ -370,5 +372,3 @@ section { scroll-margin-top: 80px; }
   .section { padding: 48px 0; }
 }
 
-/* Safety net: any cached old HTML self-heals once this CSS loads */
-.drawer:not(.open), .mnav:not(.open) { display: none !important; }
