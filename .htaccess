@@ -22,4 +22,12 @@ Options -Indexes
 <IfModule LiteSpeed>
   RewriteEngine On
   RewriteRule .* - [E=Cache-Control:no-cache]
+  RewriteRule .* - [E=no-cache:1]
+</IfModule>
+
+# Tell CDN/proxy caches never to store responses
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm|css|js)$">
+    Header append Surrogate-Control "no-store"
+  </FilesMatch>
 </IfModule>
