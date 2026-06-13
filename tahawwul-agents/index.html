@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحول ون — مجلس الوكلاء</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #08080f;
+      --surface:  #111120;
+      --surface2: #16162a;
+      --border:   #22224a;
+      --text:     #e2e8f0;
+      --muted:    #8892b0;
+      --accent:   #6366f1;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Tahoma', 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(180deg, #0d0d20 0%, #08080f 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,.15);
+      border: 1px solid rgba(99,102,241,.35);
+      color: #a5b4fc;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    /* ── Project Snapshot ── */
+    .snapshot {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .snap-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .snap-chip strong { color: var(--text); }
+
+    /* ── Question Input ── */
+    .question-section {
+      max-width: 680px;
+      margin: 36px auto 0;
+      padding: 0 20px;
+    }
+    .question-section label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: .5px;
+    }
+    .question-input-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .question-input-wrap textarea {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      padding: 11px 14px;
+      resize: none;
+      height: 46px;
+      outline: none;
+      transition: border-color .2s, height .2s;
+      direction: rtl;
+    }
+    .question-input-wrap textarea:focus {
+      border-color: var(--accent);
+      height: 80px;
+    }
+    .question-input-wrap textarea::placeholder { color: #3a3a5a; }
+
+    /* ── Launch Button ── */
+    .btn-launch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 20px auto 0;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      width: 100%;
+      max-width: 680px;
+      justify-content: center;
+      letter-spacing: .3px;
+    }
+    .btn-launch:hover  { opacity: .88; }
+    .btn-launch:active { transform: scale(.98); }
+    .btn-launch:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Progress ── */
+    .progress-section {
+      max-width: 680px;
+      margin: 30px auto 0;
+      padding: 0 20px;
+      display: none;
+    }
+    .progress-section.visible { display: block; }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .progress-track {
+      background: var(--border);
+      border-radius: 10px;
+      height: 5px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #a78bfa);
+      border-radius: 10px;
+      width: 0%;
+      transition: width .45s ease;
+    }
+
+    /* ── Agents Layout ── */
+    .agents-wrap {
+      max-width: 1160px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+      display: none;
+    }
+    .agents-wrap.visible { display: block; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 18px;
+    }
+
+    /* ── Agent Card ── */
+    .agent-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .agent-card.done {
+      border-color: #22224a;
+      box-shadow: 0 4px 24px rgba(0,0,0,.35);
+    }
+    .agent-card:hover.done {
+      border-color: #3730a3;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+
+    .agent-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .agent-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .agent-title { font-size: 14px; font-weight: 700; }
+    .agent-focus { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .agent-badge {
+      margin-right: auto;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .badge-running { background: rgba(99,102,241,.15); color: #a5b4fc; }
+    .badge-done    { background: rgba(16,185,129,.15); color: #6ee7b7; }
+    .badge-error   { background: rgba(239,68,68,.15);  color: #fca5a5; }
+
+    .agent-body {
+      padding: 18px;
+      min-height: 180px;
+    }
+
+    /* Loading */
+    .dots-loader {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+    }
+    .dots-loader span {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.3s infinite;
+    }
+    .dots-loader span:nth-child(2) { animation-delay: .2s; }
+    .dots-loader span:nth-child(3) { animation-delay: .4s; }
+    @keyframes pulse {
+      0%, 80%, 100% { transform: scale(.6); opacity: .4; }
+      40%           { transform: scale(1);  opacity: 1;   }
+    }
+
+    /* Analysis */
+    .analysis-body { display: none; }
+    .analysis-body.visible { display: block; }
+    .analysis-body { font-size: 13.5px; line-height: 1.8; color: #cbd5e1; }
+    .analysis-body .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 14px 0 6px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .analysis-body .sec-head:first-child { margin-top: 0; }
+    .analysis-body ul { padding-right: 16px; margin: 4px 0; }
+    .analysis-body li { margin-bottom: 5px; }
+    .analysis-body p  { margin-bottom: 8px; }
+
+    /* Error */
+    .error-msg {
+      display: none;
+      color: #f87171;
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+    .error-msg.visible { display: block; }
+
+    /* ── Verdict Panel ── */
+    .verdict-wrap {
+      max-width: 1160px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+      display: none;
+    }
+    .verdict-wrap.visible { display: block; }
+
+    .verdict-panel {
+      background: linear-gradient(135deg, #0f0f2a, #13132a);
+      border: 1px solid #3730a3;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .verdict-panel h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #a5b4fc;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .verdict-panel .verdict-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+    .verdict-chip {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(99,102,241,.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .verdict-chip .vc-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .verdict-chip .vc-icon { font-size: 20px; }
+    .verdict-chip .vc-name { font-size: 12px; font-weight: 700; color: #a5b4fc; }
+    .verdict-chip .vc-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* decisions */
+    .decisions-box {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .decisions-box h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 14px;
+    }
+    .decisions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .decision-item {
+      background: rgba(99,102,241,.07);
+      border: 1px solid rgba(99,102,241,.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .decision-item .d-num {
+      color: #a5b4fc;
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    /* reset btn */
+    .btn-reset {
+      display: block;
+      margin: 24px auto 0;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      padding: 9px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-reset:hover { border-color: var(--accent); color: var(--text); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-badge">⚡ Multi-Agent Analysis — تحول ون</div>
+  <h1>مجلس الوكلاء المستقلين</h1>
+  <p>
+    ٦ وكلاء ذكاء اصطناعي متخصصون — كل واحد معزول فكرياً — يحللون مشروع تحول ون
+    من زاويته الخاصة ويعطيك حكمه الصريح بلا مجاملة
+  </p>
+
+  <div class="snapshot">
+    <div class="snap-chip">🏢 <strong>الهدف:</strong> وكلاء واتساب عربية للـ SME</div>
+    <div class="snap-chip">💰 <strong>التسعير:</strong> 249–399 ريال/شهر</div>
+    <div class="snap-chip">⚠️ <strong>التهديد:</strong> Meta Business Agent (3 يونيو 2026)</div>
+    <div class="snap-chip">🎯 <strong>البوابة:</strong> 20 عميل مدفوع × 6 أشهر</div>
+    <div class="snap-chip">🇸🇦 <strong>السوق:</strong> 1.7M سجل تجاري، انتشار واتساب 87%</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ QUESTION INPUT ═══════════════════ -->
+<div class="question-section">
+  <label>سؤال إضافي للوكلاء (اختياري)</label>
+  <div class="question-input-wrap">
+    <textarea id="questionInput" placeholder="مثال: هل أبدأ بقطاع العيادات أم محلات الورد؟ أو: ما رأيك في التسعير؟"></textarea>
+  </div>
+</div>
+
+<button class="btn-launch" id="launchBtn" onclick="startAnalysis()">
+  🚀 إطلاق مجلس الوكلاء
+</button>
+
+<!-- ═══════════════════ PROGRESS ═══════════════════ -->
+<div class="progress-section" id="progressSection">
+  <div class="progress-meta">
+    <span id="progressLabel">جاري تفعيل الوكلاء...</span>
+    <span id="progressCount">0 / 6</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ AGENTS GRID ═══════════════════ -->
+<div class="agents-wrap" id="agentsWrap">
+  <div class="section-label">تحليلات الوكلاء المستقلة — كل وكيل معزول فكرياً</div>
+  <div class="agents-grid" id="agentsGrid"></div>
+</div>
+
+<!-- ═══════════════════ VERDICT ═══════════════════ -->
+<div class="verdict-wrap" id="verdictWrap">
+  <div class="verdict-panel">
+    <h2>📊 ملخص مجلس الوكلاء</h2>
+    <p class="verdict-sub">الأحكام الإجمالية لكل وكيل — مستخلصة من التحليلات المستقلة</p>
+    <div class="verdict-grid" id="verdictGrid"></div>
+
+    <div class="decisions-box">
+      <h3>⚡ الأسئلة الخمسة التي ينتظر المشروع إجابتها</h3>
+      <div class="decisions-list">
+        <div class="decision-item"><span class="d-num">1.</span> أي الصياغات الثلاث هو المشروع الفعلي؟ (أم تسلسل 3 → 1 → 2 ؟)</div>
+        <div class="decision-item"><span class="d-num">2.</span> نسبة الاقتطاع: 30% الأصلية أم 15–20% للمنافسة؟</div>
+        <div class="decision-item"><span class="d-num">3.</span> معمارية API: مفتاح مشترك / لكل عميل / BYOK؟</div>
+        <div class="decision-item"><span class="d-num">4.</span> موقع الفريق: مصر أم السعودية أم كلاهما؟</div>
+        <div class="decision-item"><span class="d-num">5.</span> التسلسل: وكالة عمودية أولاً أم منصة مباشرة؟</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-reset" onclick="reset()">🔄 إعادة تحليل جديد</button>
+</div>
+
+<!-- ═══════════════════ SCRIPT ═══════════════════ -->
+<script>
+const AGENTS = [
+  { key: 'strategy',   name: 'وكيل الاستراتيجية والأعمال',       icon: '🏢', color: '#2563eb', focus: 'أي الصياغات الثلاث أقوى؟ وهل التسلسل 3→1→2 منطقي؟' },
+  { key: 'technical',  name: 'وكيل التقنية والذكاء الاصطناعي',   icon: '🤖', color: '#7c3aed', focus: 'هل الكود جاهز؟ وما معمارية API الأنسب؟' },
+  { key: 'marketing',  name: 'وكيل التسويق والمبيعات',            icon: '📣', color: '#dc2626', focus: 'كيف تصل لـ 20 عميل مدفوع في 6 أشهر؟' },
+  { key: 'financial',  name: 'وكيل المالية والاستثمار',           icon: '💰', color: '#059669', focus: 'هل الأرقام حقيقية؟ وما التمويل اللازم؟' },
+  { key: 'risk',       name: 'وكيل المخاطر والتحديات',           icon: '⚠️', color: '#d97706', focus: 'ما أشد المخاطر خطورة وكيف تُرتَّب؟' },
+  { key: 'operations', name: 'وكيل العمليات والتنفيذ',            icon: '⚙️', color: '#0891b2', focus: 'مصر أم السعودية؟ وكيف تبدأ التنفيذ الفعلي؟' },
+];
+
+let completed = 0;
+const verdicts = {};
+
+function startAnalysis() {
+  completed = 0;
+  document.getElementById('launchBtn').disabled = true;
+  document.getElementById('launchBtn').textContent = '⏳ الوكلاء يعملون...';
+
+  document.getElementById('progressSection').classList.add('visible');
+  setProgress(0);
+
+  const grid = document.getElementById('agentsGrid');
+  grid.innerHTML = '';
+  AGENTS.forEach(a => grid.appendChild(buildCard(a)));
+  document.getElementById('agentsWrap').classList.add('visible');
+  document.getElementById('verdictWrap').classList.remove('visible');
+
+  const question = document.getElementById('questionInput').value.trim();
+  // Each agent is called independently — no shared context between them
+  AGENTS.forEach(a => callAgent(a, question));
+}
+
+function buildCard(agent) {
+  const card = document.createElement('div');
+  card.className = 'agent-card';
+  card.id = 'card-' + agent.key;
+
+  const iconBg   = agent.color + '22';
+  const iconText = agent.color;
+
+  card.innerHTML = `
+    <div class="agent-head">
+      <div class="agent-icon-wrap" style="background:${iconBg}; color:${iconText}">
+        ${agent.icon}
+      </div>
+      <div style="flex:1; min-width:0">
+        <div class="agent-title">${agent.name}</div>
+        <div class="agent-focus">${agent.focus}</div>
+      </div>
+      <span class="agent-badge badge-running" id="badge-${agent.key}">يعمل...</span>
+    </div>
+    <div class="agent-body" id="body-${agent.key}">
+      <div class="dots-loader" id="dots-${agent.key}">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="analysis-body" id="text-${agent.key}"></div>
+      <div class="error-msg"    id="err-${agent.key}"></div>
+    </div>
+  `;
+  return card;
+}
+
+async function callAgent(agent, question) {
+  try {
+    const res = await fetch('agents.php', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ agent: agent.key, question }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showError(agent.key, data.error || 'خطأ غير معروف');
+    } else {
+      showAnalysis(agent.key, data.analysis);
+      verdicts[agent.key] = { agent: data.agent, analysis: data.analysis };
+    }
+  } catch (e) {
+    showError(agent.key, 'تعذّر الاتصال — تحقق من إعداد .env');
+  }
+  completed++;
+  setProgress(completed);
+  if (completed === AGENTS.length) onAllDone();
+}
+
+function showAnalysis(key, raw) {
+  hideDots(key);
+  document.getElementById('badge-' + key).className = 'agent-badge badge-done';
+  document.getElementById('badge-' + key).textContent = '✓ اكتمل';
+  document.getElementById('card-' + key).classList.add('done');
+
+  const el = document.getElementById('text-' + key);
+  el.innerHTML = renderMarkdown(raw);
+  el.classList.add('visible');
+}
+
+function showError(key, msg) {
+  hideDots(key);
+  document.getElementById('badge-' + key).className = 'agent-badge badge-error';
+  document.getElementById('badge-' + key).textContent = '✗ خطأ';
+
+  const el = document.getElementById('err-' + key);
+  el.textContent = '⚠️ ' + msg;
+  el.classList.add('visible');
+}
+
+function hideDots(key) {
+  document.getElementById('dots-' + key).style.display = 'none';
+}
+
+function renderMarkdown(text) {
+  // Convert **heading:** lines into styled section headers
+  text = text.replace(/\*\*([^*\n]+):\*\*/g, '<div class="sec-head">$1</div>');
+  // Bold remaining **...**
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // List items
+  text = text.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+  // Wrap consecutive <li> in <ul>
+  text = text.replace(/(<li>[\s\S]*?<\/li>)(?=\s*(?!<li>))/g, '<ul>$1</ul>');
+  // Paragraphs
+  text = text.split(/\n{2,}/).map(p => {
+    p = p.trim();
+    if (!p || p.startsWith('<')) return p;
+    return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+  }).join('\n');
+  return text;
+}
+
+function setProgress(done) {
+  const pct = Math.round((done / AGENTS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = done + ' / ' + AGENTS.length;
+  const msgs = [
+    'جاري تفعيل الوكلاء...', 'الوكلاء يحللون...', 'نصف المجلس أنهى عمله...',
+    'آخر الوكلاء يعملون...', 'لحظات وينتهي التحليل...', 'جاري التجميع...', 'اكتمل المجلس!'
+  ];
+  document.getElementById('progressLabel').textContent = msgs[Math.min(done, msgs.length - 1)];
+}
+
+function onAllDone() {
+  document.getElementById('launchBtn').disabled = false;
+  document.getElementById('launchBtn').textContent = '🔄 إعادة التحليل';
+
+  const grid = document.getElementById('verdictGrid');
+  grid.innerHTML = '';
+
+  AGENTS.forEach(agent => {
+    const v = verdicts[agent.key];
+    const verdict = v ? extractVerdict(v.analysis) : 'لا توجد بيانات';
+    const chip = document.createElement('div');
+    chip.className = 'verdict-chip';
+    chip.innerHTML = `
+      <div class="vc-header">
+        <span class="vc-icon">${agent.icon}</span>
+        <span class="vc-name">${agent.name}</span>
+      </div>
+      <div class="vc-text">${verdict}</div>
+    `;
+    grid.appendChild(chip);
+  });
+
+  document.getElementById('verdictWrap').classList.add('visible');
+  setTimeout(() => {
+    document.getElementById('verdictWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+}
+
+function extractVerdict(text) {
+  // Look for the إجمالي verdict line
+  const match = text.match(/حكمي الإجمالي[:\s*]*(.+?)(?:\n|$)/i);
+  if (match) return match[1].replace(/\*+/g, '').trim().slice(0, 130);
+  // Fallback: last sentence
+  const sentences = text.replace(/\*+/g, '').split(/[.\n]/).filter(s => s.trim().length > 20);
+  return sentences[sentences.length - 1]?.trim().slice(0, 130) || '—';
+}
+
+function reset() {
+  document.getElementById('verdictWrap').classList.remove('visible');
+  document.getElementById('agentsWrap').classList.remove('visible');
+  document.getElementById('progressSection').classList.remove('visible');
+  document.getElementById('launchBtn').disabled = false;
+  document.getElementById('launchBtn').textContent = '🚀 إطلاق مجلس الوكلاء';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
